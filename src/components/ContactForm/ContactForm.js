@@ -1,6 +1,15 @@
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import PropTypes from 'prop-types';
+import { Formik } from 'formik';
 import { nanoid } from 'nanoid';
 import * as Yup from 'yup';
+import {
+  Field,
+  Form,
+  ErrorMessage,
+  FormLable,
+  ButtonSubmit,
+} from './ContacctForm.styled';
+import { BsFillBrushFill } from 'react-icons/bs';
 
 const startValues = {
   name: '',
@@ -12,7 +21,7 @@ const ContactSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  number: Yup.number()
+  number: Yup.string()
     .min(2, 'Too Short!')
 
     .required('Required'),
@@ -31,20 +40,26 @@ export const ContactForm = ({ onSave }) => {
         actions.resetForm();
       }}
     >
-      <Form>
-        <label>
+      <Form autoComplete="off">
+        <FormLable>
           Name
           <Field name="name" type="text" />
-          <ErrorMessage name="name" />
-        </label>
+          <ErrorMessage name="name" component="span" />
+        </FormLable>
 
-        <label>
-          Numder
-          <Field name="number" type="number" />
-          <ErrorMessage name="number" />
-        </label>
-        <button type="submit">Add contact</button>
+        <FormLable>
+          Number
+          <Field name="number" type="text" />
+          <ErrorMessage name="number" component="span" />
+        </FormLable>
+        <ButtonSubmit type="submit">
+          Add contact <BsFillBrushFill />
+        </ButtonSubmit>
       </Form>
     </Formik>
   );
+};
+
+ContactForm.propTypes = {
+  onSave: PropTypes.func.isRequired,
 };
